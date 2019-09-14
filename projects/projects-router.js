@@ -2,6 +2,7 @@ const express = require('express');
 const Projects = require('./projects-model.js');
 const router = express.Router();
 
+// get projects
 router.get('/', (req, res) => {
     Projects.getProjects()
         .then(projects => res.status(200).json(projects))
@@ -11,6 +12,7 @@ router.get('/', (req, res) => {
         });
 });
 
+// get project
 router.get('/:id', (req, res) => {
     const { id } = req.params;
     Projects.getProjectById(id)
@@ -21,12 +23,10 @@ router.get('/:id', (req, res) => {
         });
 });
 
+// post project
 router.post('/', (req, res) => {
-    Projects.insert(req.body)
-        .then(something => {
-            console.log(something);
-            res.end();
-        })
+    Projects.insertProject(req.body)
+        .then(project => res.status(201).json(project))
         .catch(err => {
             console.log(err);
             res.status(500).json({error: "Could not insert project"});
